@@ -22,14 +22,6 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  function handleSelectedMovie(id) {
-    setSelectedId((selectedId) => (selectedId === id ? null : id));
-  }
-
-  function handleCloseMovie() {
-    setSelectedId(null);
-  }
-
   useEffect(() => {
     async function fetchMovies() {
       try {
@@ -67,6 +59,18 @@ export default function App() {
     fetchMovies();
   }, [query]);
 
+  function handleSelectedMovie(id) {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  }
+
   return (
     <>
       <Navigation>
@@ -88,6 +92,7 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
             />
           ) : (
             <>
