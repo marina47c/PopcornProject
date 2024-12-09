@@ -4,9 +4,12 @@ import Loader from "./Loader";
 
 const KEY = "504376ed";
 
-const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched }) => {
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
 
   const {
     Title: title,
@@ -42,10 +45,12 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched }) => {
       year,
       poster,
       imdbRating: Number(imdbRating),
-      runtime: Number(runtime.split(" ")[0]),
+      runtime: Number(runtime.split(" ").at(0)),
+      userRating,
     };
 
     onAddWatched(newWatchedMovie);
+    onCloseMovie();
   }
 
   return (
@@ -74,12 +79,24 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched }) => {
 
           <section>
             <div className="rating">
-              <StarRating size={24} maxRating={10} />
-            </div>
+              {!isWatched ? (
+                <>
+                  <StarRating
+                    size={24}
+                    maxRating={10}
+                    onSetRating={setUserRating}
+                  />
 
-            <button className="btn-add" onClick={handleAdd}>
-              + Add to list
-            </button>
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>You rated this movie!</p>
+              )}
+            </div>
 
             <p>
               <em>{plot}</em>

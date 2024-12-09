@@ -18,7 +18,7 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("inception");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -93,6 +93,7 @@ export default function App() {
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
               onAddWatched={handleAddWatched}
+              watched={watched}
             />
           ) : (
             <>
