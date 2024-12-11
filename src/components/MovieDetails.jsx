@@ -31,6 +31,15 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     getMovieDetails(selectedId);
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!title) return;
+    document.title = `MOVIE: ${title}`;
+
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+
   async function getMovieDetails(selectedId) {
     setIsLoading(true);
     const response = await fetch(
